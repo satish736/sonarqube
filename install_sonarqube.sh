@@ -61,23 +61,23 @@ fi
 ## Set Root Password and reset it
 sed -i -e '/query_cache_size/ d' -e '$ a query_cache_size = 15M' /etc/my.cnf 
 systemctl enable mysqld &>/dev/null
-systemctl set-environment MYSQLD_OPTS="--skip-grant-tables"
+#systemctl set-environment MYSQLD_OPTS="--skip-grant-tables"
 #systemctl restart mysqld
-service mysqld restart
-mysql -e "use mysql;update user set authentication_string=password(''), plugin='mysql_native_password' where user='root';"
-systemctl unset-environment MYSQLD_OPTS
+#service mysqld restart
+#mysql -e "use mysql;update user set authentication_string=password(''), plugin='mysql_native_password' where user='root';"
+#systemctl unset-environment MYSQLD_OPTS
 #systemctl restart mysqld
-service mysqld restart
-mysql --connect-expired-password -e "ALTER USER 'root'@'localhost' IDENTIFIED BY 'P@$$w0rD'"
-systemctl set-environment MYSQLD_OPTS="--skip-grant-tables"
+#service mysqld restart
+#mysql --connect-expired-password -e "ALTER USER 'root'@'localhost' IDENTIFIED BY 'P@$$w0rD'"
+#systemctl set-environment MYSQLD_OPTS="--skip-grant-tables"
 #systemctl restart mysqld
-service mysqld restart
-mysql -e "use mysql;update user set authentication_string=password(''), plugin='mysql_native_password' where user='root';"
-systemctl unset-environment MYSQLD_OPTS
+#service mysqld restart
+#mysql -e "use mysql;update user set authentication_string=password(''), plugin='mysql_native_password' where user='root';"
+#systemctl unset-environment MYSQLD_OPTS
 #systemctl restart mysqld
 service mysqld restart
 mysql -e "grant all privileges on sonarqube.* to 'sonarqube'@'localhost' identified by 'password';" &>/dev/null
-mysql -e 'uninstall plugin validate_password;' &>/dev/null
+#mysql -e 'uninstall plugin validate_password;' &>/dev/null
 
 ## Creating DB and User access
 wget https://raw.githubusercontent.com/linuxautomations/sonarqube/master/sonarqube.sql -O /tmp/sonarqube.sql &>/dev/null
