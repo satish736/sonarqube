@@ -50,7 +50,7 @@ else
 fi     
 
 ## Installing MySQL Server
-yum install mysql-server -y &>/dev/null
+yum install mariadb  mariadb-libs mariadb-server -y &>/dev/null
 if [ $? -eq 0 ]; then 
 	success "Successfully Installed MySQL Server"
 else
