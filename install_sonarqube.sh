@@ -32,23 +32,23 @@ fi
 
 
 ## Downloading MYSQL Repositories and MySQL Server
-yum install https://kojipkgs.fedoraproject.org/packages/python-html2text/2016.9.19/1.el7/noarch/python2-html2text-2016.9.19-1.el7.noarch.rpm -y &>/dev/null
-MYSQLRPM=$(curl -s http://repo.mysql.com/ | html2text | grep el7 | tail -1 | sed -e 's/(/ /g' -e 's/)/ /g' | xargs -n1 | grep ^mysql)
-MYSQLURL="http://repo.mysql.com/$MYSQLRPM"
-
-if [ ! -f /etc/yum.repos.d/mysql-community.repo ]; then 
-
-	yum install $MYSQLURL -y &>/dev/null
-	if [ $? -eq 0 ]; then 
-		success "Successfully Configured MySQL Repositories"
-	else
-		error "Error in Configuring MySQL Repositories"
-		exit 1
-	fi
-else
-	warning "MySQL Repositories are already Configured"
-fi     
-
+##yum install https://kojipkgs.fedoraproject.org/packages/python-html2text/2016.9.19/1.el7/noarch/python2-html2text-2016.9.19-1.el7.noarch.rpm -y &>/dev/null
+##MYSQLRPM=$(curl -s http://repo.mysql.com/ | html2text | grep el7 | tail -1 | sed -e 's/(/ /g' -e 's/)/ /g' | xargs -n1 | grep ^mysql)
+##MYSQLURL="http://repo.mysql.com/$MYSQLRPM"
+##
+##if [ ! -f /etc/yum.repos.d/mysql-community.repo ]; then 
+##
+##	yum install $MYSQLURL -y &>/dev/null
+##	if [ $? -eq 0 ]; then 
+##		success "Successfully Configured MySQL Repositories"
+##	else
+##		error "Error in Configuring MySQL Repositories"
+##		exit 1
+##	fi
+##else
+##	warning "MySQL Repositories are already Configured"
+##fi   
+##
 ## Installing MySQL Server
 yum install mariadb  mariadb-libs mariadb-server -y &>/dev/null
 if [ $? -eq 0 ]; then 
@@ -61,21 +61,21 @@ fi
 ## Set Root Password and reset it
 sed -i -e '/query_cache_size/ d' -e '$ a query_cache_size = 15M' /etc/my.cnf 
 systemctl enable mysqld &>/dev/null
-#systemctl set-environment MYSQLD_OPTS="--skip-grant-tables"
-#systemctl restart mysqld
-#service mysqld restart
-#mysql -e "use mysql;update user set authentication_string=password(''), plugin='mysql_native_password' where user='root';"
-#systemctl unset-environment MYSQLD_OPTS
-#systemctl restart mysqld
-#service mysqld restart
-#mysql --connect-expired-password -e "ALTER USER 'root'@'localhost' IDENTIFIED BY 'P@$$w0rD'"
-#systemctl set-environment MYSQLD_OPTS="--skip-grant-tables"
-#systemctl restart mysqld
-#service mysqld restart
-#mysql -e "use mysql;update user set authentication_string=password(''), plugin='mysql_native_password' where user='root';"
-#systemctl unset-environment MYSQLD_OPTS
-#systemctl restart mysqld
-service mysqld restart
+##systemctl set-environment MYSQLD_OPTS="--skip-grant-tables"
+##systemctl restart mysqld
+##service mysqld restart
+##mysql -e "use mysql;update user set authentication_string=password(''), plugin='mysql_native_password' where user='root';"
+##systemctl unset-environment MYSQLD_OPTS
+##systemctl restart mysqld
+##service mysqld restart
+##mysql --connect-expired-password -e "ALTER USER 'root'@'localhost' IDENTIFIED BY 'P@$$w0rD'"
+##systemctl set-environment MYSQLD_OPTS="--skip-grant-tables"
+##systemctl restart mysqld
+##service mysqld restart
+##mysql -e "use mysql;update user set authentication_string=password(''), plugin='mysql_native_password' where user='root';"
+##systemctl unset-environment MYSQLD_OPTS
+##systemctl restart mysqld
+service mysqld start
 mysql -e "grant all privileges on sonarqube.* to 'sonarqube'@'localhost' identified by 'password';" &>/dev/null
 #mysql -e 'uninstall plugin validate_password;' &>/dev/null
 
